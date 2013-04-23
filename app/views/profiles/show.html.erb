@@ -1,0 +1,29 @@
+<div class="page-header">
+	<h1><%= @user.full_battle_tag %></h1>
+</div>
+
+<ul class="nav nav-tabs">
+  <li class="active">
+    <a href="#">Shouts</a>
+  </li>
+  <li><a href="#">Heroes</a></li>
+  <li><a href="#">Stats</a></li>
+</ul>
+
+<% if @shouts %>
+	<% @shouts.each do |shout| %>
+	<div class="well">
+		<%= shout.content %>
+		<hr/>
+		<%= link_to time_ago_in_words(shout.created_at), shout_path(shout) %> ago
+	</div>
+	<% end %>
+	<% end %>
+ 
+<%  @career = D3api::Career.new(:eu, @user.battle_tag_name, @user.battle_tag_code) %>
+	
+
+<div class="well">
+<% @allheroes = @career.heroes %>
+<%= @allheroes %>
+</div>
