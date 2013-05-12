@@ -6,3 +6,4 @@
 $ -> 
 	$('.shout').hover (event) -> 
 		$(this).toggleClass("hover")
+

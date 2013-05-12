@@ -1,29 +1,95 @@
+<head>
+	<%= javascript_include_tag "profile"%>
+
+
+</head>
 <div class="page-header">
 	<h1><%= @user.full_battle_tag %></h1>
 </div>
 
-<ul class="nav nav-tabs">
-  <li class="active">
-    <a href="#">Shouts</a>
-  </li>
-  <li><a href="#">Heroes</a></li>
-  <li><a href="#">Stats</a></li>
+<%  @career = D3api::Career.new(:eu, @user.battle_tag_name, @user.battle_tag_code) %>
+<ul class="nav nav-tabs" id="myTab">
+	<li class="active"><a href="#shouts" data-toggle="tab">Shouts</a></li>
+	<li><a href="#heroes" data-toggle="tab">Heroes</a></li>
+	<li><a href="#stats" data-toggle="tab">Stats</a></li>
 </ul>
 
-<% if @shouts %>
-	<% @shouts.each do |shout| %>
-	<div class="well">
-		<%= shout.content %>
-		<hr/>
-		<%= link_to time_ago_in_words(shout.created_at), shout_path(shout) %> ago
-	</div>
-	<% end %>
-	<% end %>
- 
-<%  @career = D3api::Career.new(:eu, @user.battle_tag_name, @user.battle_tag_code) %>
-	
+<div class="tab-content">
+	<div class="tab-pane active" id="shouts"><% if @shouts %>
+		<% @shouts.each do |shout| %>
+		<div class="well">
 
-<div class="well">
-<% @allheroes = @career.heroes %>
-<%= @allheroes %>
+			<%= shout.content %>
+
+			<%= link_to time_ago_in_words(shout.created_at), shout_path(shout) %> ago
+		</div>
+		<% end %>
+		<% end %>
+	</div>
+
+	<div class="tab-pane" id="heroes">
+		<div class="hero-tab-content">
+			<div class="well">
+				<p1>Heroes: </p1>
+				<hr>
+
+				
+						
+		
+
+				<div id="tablediv">
+					<table class="table table-hover">
+
+
+						<thead> 
+							<tr>
+								<th>Name</th>
+								<th>Class</th>
+								<th>Level</th>
+							</tr>
+						</thead>
+						<% heroes = @career.heroes[6] %>
+						<% for i in 0 .. @career.heroes.size-1 %>
+						<% heroes[i] = @career.heroes[i] %>
+						<% names = heroes['name'] %>
+						<% classes = heroes['class'] %>
+						<% levels = heroes['level'] %>
+						<tbody>
+							<tr>
+								<td> <%=names %> </td>
+								<td> <%=classes %> </td>
+								<td> <%=levels %></td>
+								<% end %>
+							</tr>
+						</tbody>
+
+					</table>
+				</div>
+
+			</br></br>
+
+			
+
+		</div>
+	</div>
 </div>
+
+<div class="tab-pane" id="stats">
+	<div class="well">
+		<p1>Stats: </p1>
+		<hr>
+		<b>Last played: </b> <%= time_ago_in_words(@career.last_updated) %> ago </br>
+		<b>Monster Kills:</b> <%= @career.monster_kills %> </br>
+		<b>Elite Kills: </b> <%= @career.elite_kills %></br>
+		<b>Hardcore Kills: </b> <%= @career.hardcore_monster_kills %> </br>
+		<%=  %>
+	</div>
+</div>
+
+</div>
+
+
+
+
+
+

@@ -2,7 +2,10 @@
 	<h1>ShoutBox</h1>
 </div>
 
+<% if user_signed_in? %>
 <%= link_to "Create new shout", new_shout_path, class: "btn" %>
+<% end %>
+
 <% @shouts.each do |shout| %>
 <div class="shout">
 	<div class="row">
@@ -13,6 +16,7 @@
 		<div class="span7">
 			<strong><%= link_to shout.user.full_battle_tag, shout.user.battle_tag_name %></strong>
 			<p><%= shout.content %> </p>
+
 
 			<div class="meta">
 				<%= link_to time_ago_in_words(shout.created_at) + " ago", shout %>
